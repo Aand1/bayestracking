@@ -323,7 +323,8 @@ private:
         if (m_observations[*ui].time - si->back().time > m_seqTime) { // erase old unmatched observations
           si = m_sequences.erase(si);
         }
-        else if (AM::mahalanobis(m_observations[*ui].vec, om.Z, si->back().vec, om.Z) <= AM::gate(om.z_size)) { // observation close to a previous one
+        else if (m_observations[*ui].time > si->back().time &&
+            AM::mahalanobis(m_observations[*ui].vec, om.Z, si->back().vec, om.Z) <= AM::gate(om.z_size)) { // observation close to a previous one
           // add new track
           si->push_back(m_observations[*ui]);
           FilterType* filter;
